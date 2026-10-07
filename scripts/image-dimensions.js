@@ -108,7 +108,7 @@ window.portfolioImageDimensions = {
     1440,
     804
   ],
-  "assets/projects/adaptive-app-market/logo-lenovo-wordmark.svg": [
+  "assets/projects/adaptive-app-market/logo-lenovo-wordmark-black.svg": [
     157.0558,
     32.4141
   ],
