@@ -116,6 +116,14 @@ window.portfolioImageDimensions = {
     84,
     84
   ],
+  "assets/projects/adaptive-app-market/logo-redmagic-symbol-tight.svg": [
+    60.6245,
+    83.1138
+  ],
+  "assets/projects/adaptive-app-market/logo-nubia-wordmark-tight.webp": [
+    160,
+    41
+  ],
   "assets/projects/adaptive-app-market/logo-rog.svg": [
     107.937,
     57.9016
