@@ -1361,6 +1361,10 @@ body {
   background: var(--backdrop);
 }
 
+/* Clip horizontal decoration without creating a second vertical scroll box.
+   On iOS that box exposed a root-colour strip as browser chrome returned. */
+html { overflow-x:clip; }
+
 body {
   position: relative;
 }
@@ -11666,6 +11670,14 @@ body.project-open .dot-field {
   stroke:var(--line);
   stroke-width:1px;
   vector-effect:non-scaling-stroke;
+}
+/* The SAME contour uses a viewport-sized SVG on touch devices. Its cached
+   path follows document scrolling; no parallel fixed rails through notches. */
+@media (pointer:coarse) {
+  .paper-edge-extensions { position:fixed; }
+  /* Keep ground pixels beyond the transient browser-toolbar boundary.
+     Equal height/bottom changes preserve the visible top of the image. */
+  .backdrop-ground { bottom:-80px; height:calc(36vh + 80px); }
 }
 .site-shell,
 .paper-edge-extensions { opacity:1; visibility:visible; transition:none; }

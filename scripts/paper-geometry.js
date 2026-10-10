@@ -44,6 +44,19 @@
     return { sheet, detail, outline, holeGroup, seams: seams.map(([sel, edge]) => ({ node: sheet.querySelector(sel), edge })).filter(item => item.node), signature: "" };
   }).filter(Boolean);
   let frame;
+  let scrollFrame;
+  const touchViewport = matchMedia('(pointer:coarse)');
+  function syncViewportPath() {
+    scrollFrame = null;
+    if (touchViewport.matches) {
+      extensionPath.setAttribute('transform', `translate(0 ${-window.scrollY})`);
+    } else {
+      extensionPath.removeAttribute('transform');
+    }
+  }
+  function queueViewportPath() {
+    if (touchViewport.matches && !scrollFrame) scrollFrame = requestAnimationFrame(syncViewportPath);
+  }
   function measure({ sheet, seams, detail }) {
     const rect = sheet.getBoundingClientRect();
     const width = sheet.offsetWidth;
@@ -180,10 +193,12 @@
         extensionSegments.push(path);
       }
     }
-    extensionOutline.setAttribute("viewBox", `0 0 ${window.innerWidth} ${documentHeight}`);
+    const svgHeight = touchViewport.matches ? window.innerHeight : documentHeight;
+    extensionOutline.setAttribute("viewBox", `0 0 ${window.innerWidth} ${svgHeight}`);
     extensionOutline.setAttribute("width", String(window.innerWidth));
-    extensionOutline.setAttribute("height", String(documentHeight));
+    extensionOutline.setAttribute("height", String(svgHeight));
     extensionPath.setAttribute("d", extensionSegments.join(" "));
+    syncViewportPath();
     document.documentElement.classList.add("has-paper-geometry");
   }
   function queue() { if (!frame) frame = requestAnimationFrame(update); }
@@ -197,6 +212,11 @@
   if (sheet) new MutationObserver(queue).observe(sheet, { childList: true, subtree: true, attributes: true, attributeFilter: ["data-project-id", "class"] });
   new MutationObserver(queue).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
   window.addEventListener("resize", queue, { passive: true });
+  window.addEventListener('scroll', queueViewportPath, {passive:true});
+  // Browser toolbar changes do not necessarily resize the layout viewport.
+  window.visualViewport?.addEventListener('resize', queue, {passive:true});
+  window.visualViewport?.addEventListener('scroll', queueViewportPath, {passive:true});
+  touchViewport.addEventListener('change', queue);
   document.fonts.ready.then(queue);
   document.fonts.addEventListener("loadingdone", queue);
   document.addEventListener('portfolio:boot-enter', () => {
