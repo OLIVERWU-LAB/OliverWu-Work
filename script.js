@@ -14,25 +14,70 @@ const preferredWorkOrder = [
   "animula-nook-ugc",
   "teemo-roguelike",
   "tencent-cloud-gaming",
-  "spirited-expedition",
   "adaptive-app-market",
+  "spirited-expedition",
   "gangstar-bite-me",
-  "olive-town",
   "visual-editor",
-  "florahaven",
+  "olive-town",
   "external-blood-vessel",
   "dnf-zhulang-festival",
+  "florahaven",
   "poka-project-p",
   "water-babies",
-  "swrd",
   "utopia-2419",
   "cloud-island-device",
+  "swrd",
   "sound-design",
 ];
 const filterWorkOrders = {
-  all: preferredWorkOrder,
-  product: ["tencent-cloud-gaming", "adaptive-app-market", "olive-town", "visual-editor", "florahaven", "external-blood-vessel", "cloud-island-device"],
-  sound: ["sound-design", "external-blood-vessel", "water-babies", "swrd"],
+  "all": [
+    "animula-nook-ugc",
+    "teemo-roguelike",
+    "tencent-cloud-gaming",
+    "adaptive-app-market",
+    "spirited-expedition",
+    "gangstar-bite-me",
+    "visual-editor",
+    "olive-town",
+    "external-blood-vessel",
+    "dnf-zhulang-festival",
+    "florahaven",
+    "poka-project-p",
+    "water-babies",
+    "utopia-2419",
+    "cloud-island-device",
+    "swrd"
+  ],
+  "product": [
+    "tencent-cloud-gaming",
+    "adaptive-app-market",
+    "olive-town",
+    "visual-editor",
+    "florahaven",
+    "external-blood-vessel",
+    "cloud-island-device"
+  ],
+  "sound": [
+    "sound-design",
+    "external-blood-vessel",
+    "water-babies",
+    "swrd"
+  ],
+  "game": [
+    "animula-nook-ugc",
+    "teemo-roguelike",
+    "spirited-expedition",
+    "gangstar-bite-me",
+    "dnf-zhulang-festival",
+    "poka-project-p",
+    "utopia-2419"
+  ],
+  "art": [
+    "external-blood-vessel",
+    "water-babies",
+    "swrd",
+    "cloud-island-device"
+  ]
 };
 const workCardDescriptors = new Map(projectCards.map((card) => {
   const label = card.querySelector(".case-info > p");
@@ -4466,7 +4511,7 @@ function setWorkFilter(filter) {
   orderedCards.forEach((card) => {
     projectCardMap?.append(card);
     const categories = card.dataset.category.split(/\s+/);
-    const isVisible = selectedFilter === "all" || categories.includes(selectedFilter);
+    const isVisible = (selectedFilter === "all" ? selectedOrderIndex.has(card.dataset.projectId) : categories.includes(selectedFilter));
     card.hidden = !isVisible;
     card.dataset.visibleColumn = isVisible && visibleIndex % 2 === 1 ? "right" : "left";
     if (!isVisible) return;
