@@ -527,3 +527,16 @@ html[lang="zh-CN"] .project-sheet[data-project-id="animula-nook-ugc"] .ugc-demo-
 }
 
 .project-sheet[data-project-id="animula-nook-ugc"] .ugc-overview .ugc-screen-caption { padding:0 0 14px; }
+
+/* Reversible presentation blur. The underlying media remains unchanged. */
+.project-sheet[data-project-id="animula-nook-ugc"] :is(
+  .ugc-image:not([src*="/workflow-vscode.webp"]),
+  .ugc-device-interface,
+  .ugc-player
+) {
+  filter: blur(5px);
+}
+
+.project-sheet[data-project-id="animula-nook-ugc"] .ugc-screen-link {
+  overflow: hidden;
+}
