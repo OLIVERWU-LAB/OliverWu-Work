@@ -11923,3 +11923,209 @@ html.has-paper-geometry .contact-panel::after { display:none; }
   .case-card:not(.case-card-locked) .case-media::after,
   .work-section .case-card:not(.case-card-locked) .case-image { transition: none; }
 }
+
+/* Six tracks let two- and three-card rows share the same outer edges. */
+@media (min-width: 1100px) {
+  .case-map[data-work-grid]:is(:not([data-active-filter]), [data-active-filter="all"]) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .case-map[data-work-grid]:is(:not([data-active-filter]), [data-active-filter="all"]) > .case-card {
+    grid-column: span 3;
+    border-right: 1px solid var(--line);
+  }
+
+  .case-map[data-work-grid]:is(:not([data-active-filter]), [data-active-filter="all"]) > [data-work-third] {
+    grid-column: span 2;
+  }
+
+  .case-map[data-work-grid]:is(:not([data-active-filter]), [data-active-filter="all"]) > [data-work-row-end] {
+    border-right: 0;
+  }
+}
+
+.case-map[data-work-grid] > .case-card {
+  position: relative;
+  overflow: visible;
+}
+
+.work-note {
+  --clip-position: 30px;
+  --clip-angle: 0deg;
+  --clip-height: clamp(30.5px, calc(1.6667vw + 24px), 48px);
+  --clip-width: calc(var(--clip-height) * 60 / 122);
+  --clip-rise: calc(2.5px + var(--clip-height) * 11.05 / 122);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.work-note::before,
+.work-note::after {
+  position: absolute;
+  top: calc(-1 * var(--clip-rise));
+  left: var(--clip-position);
+  width: var(--clip-width);
+  height: var(--clip-height);
+  mask: var(--clip-wire) center / contain no-repeat;
+  background: var(--clip-ink, #565551);
+  translate: -50% 0;
+  rotate: var(--clip-angle);
+  /* Keep the pivot at the paper edge, directly under the crown. */
+  transform-origin: 60% var(--clip-rise);
+  content: "";
+  pointer-events: none;
+}
+
+.work-note::before {
+  /* Counter the clip's rotation so the rear wire cuts off at the paper edge. */
+  z-index: 0;
+  --clip-edge-slope: tan(var(--clip-angle));
+  clip-path: polygon(
+    0 0, 100% 0,
+    100% calc(var(--clip-rise) - var(--clip-width) * .4 * var(--clip-edge-slope)),
+    0 calc(var(--clip-rise) + var(--clip-width) * .6 * var(--clip-edge-slope))
+  );
+  --clip-wire: url("data:image/svg+xml,\
+%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 122'%3E\
+%3Cpath d='M36 8a20 20 0 0 1 20 20v62a26 26 0 0 1-52 0V34' fill='none' \
+stroke='black' stroke-width='6.1' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+.work-note::after {
+  /* The inner loop meets the rear loop at the crown, at (36, 8). */
+  z-index: 3;
+  --clip-wire: url("data:image/svg+xml,\
+%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 122'%3E\
+%3Cpath d='M40 36V90a12 12 0 0 1-24 0V28a20 20 0 0 1 20-20' fill='none' \
+stroke='black' stroke-width='6.1' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+.case-card[data-project-id="tencent-cloud-gaming"] .work-note {
+  --clip-position: 26px;
+  --clip-angle: -6deg;
+  --clip-ink: #adada8;
+}
+
+.case-card[data-project-id="adaptive-app-market"] .work-note {
+  --clip-position: 37px;
+  --clip-angle: 5deg;
+  --clip-ink: #989792;
+}
+
+.case-map[data-work-grid] > .case-card[data-project-id="animula-nook-ugc"] {
+  container: work-ugc-cover / inline-size;
+}
+
+.case-card[data-project-id="animula-nook-ugc"] .work-note {
+  --clip-position: 34px;
+  --clip-angle: 3deg;
+  --clip-ink: #aaa8a1;
+}
+
+/* A tighter crop moves the clip onto the pale label in the cover art. */
+@container work-ugc-cover (max-width: 440px) {
+  .case-card[data-project-id="animula-nook-ugc"] .work-note {
+    --clip-ink: #4b4a47;
+  }
+}
+
+.case-card[data-project-id="start-cloud-gaming-3"] .work-note {
+  --clip-position: 25px;
+  --clip-angle: -4deg;
+  --clip-ink: #94938d;
+}
+
+.case-card[data-project-id="spirited-expedition"] .work-note {
+  --clip-position: 38px;
+  --clip-angle: 6deg;
+  --clip-ink: #4d4d49;
+}
+
+.case-card[data-project-id="gangstar-bite-me"] .work-note {
+  --clip-position: 29px;
+  --clip-angle: -5deg;
+  --clip-ink: #b0afa9;
+}
+
+.case-card[data-project-id="dnf-zhulang-festival"] .work-note {
+  --clip-position: 24px;
+  --clip-angle: 4deg;
+  --clip-ink: #d0cfca;
+}
+
+.case-card[data-project-id="olive-town"] .work-note {
+  --clip-position: 35px;
+  --clip-angle: -6deg;
+  --clip-ink: #a4a39f;
+}
+
+.case-card[data-project-id="external-blood-vessel"] .work-note {
+  --clip-position: 31px;
+  --clip-angle: 6deg;
+  --clip-ink: #979692;
+}
+
+.case-card[data-project-id="visual-editor"] .work-note {
+  --clip-position: 38px;
+  --clip-angle: -3deg;
+  --clip-ink: #4e4d49;
+}
+
+.case-card[data-project-id="florahaven"] .work-note {
+  --clip-position: 25px;
+  --clip-angle: 4deg;
+  --clip-ink: #c7c6c0;
+}
+
+.case-card[data-project-id="poka-project-p"] .work-note {
+  --clip-position: 30px;
+  --clip-angle: -7deg;
+  --clip-ink: #afaea9;
+}
+
+.case-card[data-project-id="water-babies"] .work-note {
+  --clip-position: 36px;
+  --clip-angle: 3deg;
+  --clip-ink: #3c3c38;
+}
+
+.case-card[data-project-id="utopia-2419"] .work-note {
+  --clip-position: 24px;
+  --clip-angle: -2deg;
+  --clip-ink: #93928d;
+}
+
+.case-card[data-project-id="cloud-island-device"] .work-note {
+  --clip-position: 34px;
+  --clip-angle: 5deg;
+  --clip-ink: #55544f;
+}
+
+.case-card[data-project-id="swrd"] .work-note {
+  --clip-position: 27px;
+  --clip-angle: -5deg;
+  --clip-ink: #b3b2ad;
+}
+
+@media (max-width: 620px) {
+  .case-card[data-project-id="swrd"] .work-note {
+    --clip-ink: #494844;
+  }
+}
+
+.case-card[data-project-id="sound-design"] .work-note {
+  --clip-position: 38px;
+  --clip-angle: 4deg;
+  --clip-ink: #969590;
+}
+
+.work-note .case-frame {
+  flex: none;
+  z-index: 2;
+}
+
+.work-note .case-info {
+  flex: 1;
+}
