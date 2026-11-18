@@ -152,6 +152,9 @@ const projectChapters = document.querySelector(".project-chapters");
 const projectChapterElements = [...document.querySelectorAll(".project-chapter")];
 const hoverQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
 const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+const workCardPreview = window.setupWorkCardPreviews?.({
+  cards: detailProjectCards, projectCardMap, openProject, hoverQuery, reduceMotionQuery,
+});
 
 if ("scrollRestoration" in window.history) {
   window.history.scrollRestoration = "manual";
@@ -3916,6 +3919,8 @@ function reserveProjectImageGeometry() {
 async function openProject(card, options = {}) {
   if (!projectDetail || !projectSheet || !card) return;
 
+  workCardPreview?.close();
+
   const projectId = card.dataset.projectId;
   card.removeAttribute('data-cover-pending');
   const openSequence = ++projectOpenSequence;
@@ -4491,6 +4496,7 @@ function setLanguage(language) {
   const selectedLanguage = language === "zh" ? "zh" : "en";
   const copy = languageCopy[selectedLanguage];
   currentLanguage = selectedLanguage;
+  workCardPreview?.setLanguage(selectedLanguage);
 
   document.documentElement.lang = selectedLanguage === "zh" ? "zh-CN" : "en";
   document.title = selectedLanguage === "zh"
@@ -4603,6 +4609,7 @@ function setLanguage(language) {
 }
 
 function setWorkFilter(filter) {
+  workCardPreview?.close();
   const selectedFilter = ["game", "product", "art", "sound"].includes(filter) ? filter : "all";
   if (projectCardMap) projectCardMap.dataset.activeFilter = selectedFilter;
   const selectedOrder = filterWorkOrders[selectedFilter] || preferredWorkOrder;

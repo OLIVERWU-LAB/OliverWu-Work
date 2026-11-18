@@ -1,0 +1,167 @@
+.case-card.is-work-previewing :is(.case-info, .work-cover-underlay) {
+  background-color: #fff;
+}
+
+.case-card.is-work-previewing .case-info::after,
+.work-section .case-card.is-work-previewing .case-media::after {
+  opacity: 1;
+}
+
+.work-section .case-card.is-work-previewing .case-image {
+  filter: brightness(1.05);
+}
+
+.case-card.is-work-previewing .case-frame .case-image {
+  transform: scale(1.065);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .case-card[data-work-preview] .case-frame {
+    transition: --fold-reveal var(--work-info-duration) var(--work-info-ease);
+  }
+
+  .case-card[data-work-preview] .case-frame::after {
+    transition-duration: var(--work-info-duration);
+    transition-timing-function: var(--work-info-ease);
+  }
+
+  .case-card.is-work-previewing .case-frame {
+    --fold-reveal: var(--corner-size);
+  }
+
+  .case-card.is-work-previewing .case-frame::after {
+    clip-path: circle(150% at 100% 0);
+    transform: scale(1);
+  }
+}
+
+.case-info.work-info-preview {
+  display: flex;
+  flex-direction: column;
+}
+
+.work-info-preview .case-details {
+  margin-block-start: auto;
+}
+
+.work-note .case-intro {
+  display: none;
+}
+
+.work-info-preview .case-intro {
+  margin: 0 0 12px;
+  color: #4b4540;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  text-transform: none;
+}
+
+.work-preview-layer {
+  position: absolute;
+  /* Above the work sheet's SVG contour, beneath the shared grain canvas. */
+  z-index: 8;
+  inset: 0;
+  pointer-events: none;
+}
+
+.case-card[data-work-preview] .case-frame,
+.case-info.work-info-preview {
+  --work-info-duration: 280ms;
+  --work-info-ease: cubic-bezier(.4, 0, .25, 1);
+}
+
+.case-card[data-work-preview].is-work-previewing .case-frame,
+.case-info.work-info-preview.is-expanded {
+  --work-info-duration: 360ms;
+  --work-info-ease: cubic-bezier(.22, .72, .25, 1);
+}
+
+.case-info.work-info-preview {
+  position: absolute;
+  z-index: 0;
+  visibility: hidden;
+  background-color: var(--paper);
+  box-shadow: 0 0 0 rgb(33 24 18 / 0);
+  cursor: pointer;
+  pointer-events: none;
+  transition:
+    visibility 0s linear var(--work-info-duration),
+    box-shadow var(--work-info-duration) var(--work-info-ease);
+}
+
+.case-info.work-info-preview.is-expanded {
+  z-index: 1;
+  visibility: visible;
+  box-shadow: 0 8px 16px rgb(33 24 18 / .18);
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.work-info-preview::before {
+  position: absolute;
+  z-index: -1;
+  inset: auto 0 0;
+  height: 48px;
+  border-bottom: 1px solid rgb(194 105 72 / .6);
+  background: linear-gradient(to top, rgb(240 137 85 / .39), rgb(255 200 183 / .14) 55%, transparent);
+  content: "";
+  opacity: 0;
+  transition: opacity var(--work-info-duration) var(--work-info-ease);
+}
+
+.work-info-preview.is-expanded::before {
+  opacity: 1;
+}
+
+.work-info-preview h3 {
+  overflow-wrap: anywhere;
+  transition: font-size var(--work-info-duration) var(--work-info-ease);
+}
+
+.work-info-preview.is-expanded h3 {
+  font-size: clamp(.82rem, 1.08vw, 1.08rem);
+}
+
+.work-info-intro {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--work-info-duration) var(--work-info-ease);
+}
+
+.work-info-preview.is-expanded .work-info-intro {
+  grid-template-rows: 1fr;
+}
+
+.work-info-intro > div {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.work-info-intro .case-intro {
+  opacity: 0;
+  translate: 0 -6px;
+  transition:
+    opacity var(--work-info-duration) var(--work-info-ease),
+    translate var(--work-info-duration) var(--work-info-ease);
+}
+
+.work-info-preview.is-expanded .case-intro {
+  opacity: 1;
+  translate: 0 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body:where(:has(> .work-preview-layer > .work-info-preview)) .dot-field {
+    z-index: 9;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-card[data-work-preview] .case-frame,
+  .case-card[data-work-preview].is-work-previewing .case-frame,
+  .case-info.work-info-preview,
+  .case-info.work-info-preview.is-expanded {
+    --work-info-duration: 0ms;
+  }
+}

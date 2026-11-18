@@ -2109,11 +2109,11 @@ body::after {
   transition: opacity 400ms ease;
 }
 
-.case-card:not(.case-card-locked):is(:hover, :focus-visible) .case-info {
+.case-card:not(:where([data-work-preview])):not(.case-card-locked):is(:hover, :focus-visible) .case-info {
   background-color: #fff;
 }
 
-.case-card:not(.case-card-locked):is(:hover, :focus-visible) .case-info::after {
+.case-card:not(:where([data-work-preview])):not(.case-card-locked):is(:hover, :focus-visible) .case-info::after {
   opacity: 1;
 }
 
@@ -2131,7 +2131,7 @@ body::after {
    five-percent lift plus a soft, screen-blended bloom. Locked/NDA cards keep
    their dedicated feedback instead. */
 .work-section .case-card:not(.case-card-locked) .case-image { filter: none; }
-.work-section .case-card:not(.case-card-locked):is(:hover,:focus-visible) .case-image { filter: brightness(1.05); }
+.work-section .case-card:not(:where([data-work-preview])):not(.case-card-locked):is(:hover,:focus-visible) .case-image { filter: brightness(1.05); }
 .work-section .case-card:not(.case-card-locked) .case-media::after {
   position: absolute;
   z-index: 8;
@@ -2143,15 +2143,15 @@ body::after {
   pointer-events: none;
   transition: opacity 540ms cubic-bezier(.2,.75,.2,1);
 }
-.work-section .case-card:not(.case-card-locked):is(:hover,:focus-visible) .case-media::after { opacity: 1; }
+.work-section .case-card:not(:where([data-work-preview])):not(.case-card-locked):is(:hover,:focus-visible) .case-media::after { opacity: 1; }
 
 .case-card:hover .case-frame .case-media,
 .case-card:focus-visible .case-frame .case-media {
   transform: none;
 }
 
-.case-card:hover .case-frame .case-image,
-.case-card:focus-visible .case-frame .case-image {
+.case-card:not(:where([data-work-preview])):hover .case-frame .case-image,
+.case-card:not(:where([data-work-preview])):focus-visible .case-frame .case-image {
   transform: scale(1.065);
 }
 
@@ -2192,13 +2192,13 @@ body::after {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .case-card:not(.case-card-locked):hover .case-frame,
-  .case-card:not(.case-card-locked):focus-visible .case-frame {
+  .case-card:not(:where([data-work-preview])):not(.case-card-locked):hover .case-frame,
+  .case-card:not(:where([data-work-preview])):not(.case-card-locked):focus-visible .case-frame {
     --fold-reveal: var(--corner-size);
   }
 
-  .case-card:not(.case-card-locked):hover .case-frame::after,
-  .case-card:not(.case-card-locked):focus-visible .case-frame::after {
+  .case-card:not(:where([data-work-preview])):not(.case-card-locked):hover .case-frame::after,
+  .case-card:not(:where([data-work-preview])):not(.case-card-locked):focus-visible .case-frame::after {
     clip-path: circle(150% at 100% 0);
     transform: scale(1);
   }
