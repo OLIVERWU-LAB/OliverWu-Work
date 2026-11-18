@@ -385,15 +385,6 @@
   box-shadow:none;
   pointer-events:none;
 }
-.project-sheet[data-project-id="adaptive-app-market"] .is-scroll-phone .am-phone-shell.is-am-visible .am-phone-screen {
-  animation:am-phone-scroll 15s cubic-bezier(.65,0,.35,1) infinite;
-}
-.project-sheet[data-project-id="adaptive-app-market"] .is-scroll-phone:nth-child(2) .am-phone-shell.is-am-visible .am-phone-screen { animation-duration:18s; }
-@keyframes am-phone-scroll {
-  0%,16% { transform:translate3d(0,0,0); }
-  48%,65% { transform:translate3d(0,var(--am-scroll-end),0); }
-  94%,100% { transform:translate3d(0,0,0); }
-}
 .project-sheet[data-project-id="adaptive-app-market"] .am-phone-notes { display:flex; flex-direction:column; gap:12px; }
 .project-sheet[data-project-id="adaptive-app-market"] .am-note {
   display:grid;
@@ -543,14 +534,54 @@
 }
 .project-sheet[data-project-id="adaptive-app-market"] .am-phone-island { display:none !important; }
 .project-sheet[data-project-id="adaptive-app-market"] .am-phone-screen { width:100%; max-width:none; }
-.project-sheet[data-project-id="adaptive-app-market"] .is-scroll-phone .am-phone-shell.is-am-visible .am-phone-screen {
-  animation:am-phone-scroll-native 18s cubic-bezier(.68,0,.32,1) infinite;
+/* The status blur and the moving screen share the same scroll loop. */
+.project-sheet[data-project-id="adaptive-app-market"] .is-scroll-phone {
+  --am-phone-scroll-name:am-phone-scroll-native;
+  --am-phone-status-name:am-phone-status-native;
+  --am-phone-scroll-duration:18s;
+  --am-phone-scroll-delay:0s;
+  --am-phone-scroll-curve:cubic-bezier(.68,0,.32,1);
 }
-.project-sheet[data-project-id="adaptive-app-market"] .is-scroll-phone:nth-child(2) .am-phone-shell.is-am-visible .am-phone-screen { animation-duration:21s; }
+.project-sheet[data-project-id="adaptive-app-market"] .is-scroll-phone:nth-child(2) { --am-phone-scroll-duration:21s; }
+.project-sheet[data-project-id="adaptive-app-market"] .am-scroll-status-blur { display:none; }
+
+@media (prefers-reduced-motion:no-preference) {
+  .project-sheet[data-project-id="adaptive-app-market"] .is-scroll-phone .am-phone-shell.is-am-visible .am-phone-screen {
+    animation:var(--am-phone-scroll-name) var(--am-phone-scroll-duration) var(--am-phone-scroll-curve) var(--am-phone-scroll-delay) infinite;
+  }
+  .project-sheet[data-project-id="adaptive-app-market"] .is-scroll-phone .am-phone-shell.is-am-visible .am-scroll-status-blur {
+    display:block;
+    position:absolute;
+    inset:0 0 auto;
+    z-index:4;
+    aspect-ratio:411 / 72;
+    pointer-events:none;
+    -webkit-mask-image:linear-gradient(to bottom, #000, transparent);
+    mask-image:linear-gradient(to bottom, #000, transparent);
+    opacity:0;
+    animation:var(--am-phone-status-name) var(--am-phone-scroll-duration) ease-in-out var(--am-phone-scroll-delay) infinite;
+  }
+  .project-sheet[data-project-id="adaptive-app-market"] .am-scroll-status-sample {
+    /* Sample past both ends so the blur does not blend with a clipped edge. */
+    --am-status-overscan:32px;
+    position:absolute;
+    inset:calc(-1 * var(--am-status-overscan)) 0;
+    overflow:hidden;
+    filter:blur(10px);
+  }
+  .project-sheet[data-project-id="adaptive-app-market"] .am-scroll-status-sample .am-phone-screen {
+    position:relative;
+    top:var(--am-status-overscan);
+  }
+}
 @keyframes am-phone-scroll-native {
   0%,14% { transform:translate3d(0,0,0); }
   48%,65% { transform:translate3d(0,calc(-100% + 100cqh),0); }
   94%,100% { transform:translate3d(0,0,0); }
+}
+@keyframes am-phone-status-native {
+  0%,14%,94%,100% { opacity:0; }
+  19%,89% { opacity:1; }
 }
 
 .project-sheet[data-project-id="adaptive-app-market"] .am-phone-discovery-layout {
@@ -694,30 +725,6 @@
 .project-sheet[data-project-id="adaptive-app-market"] .am-marquee-row.is-reverse .am-ribbon-phone { transform:rotate(-15deg); }
 @keyframes am-screen-drift { from { transform:translate3d(0,0,0); } to { transform:translate3d(-33.333333%,0,0); } }
 
-.project-sheet[data-project-id="adaptive-app-market"] .am-tablet-device { aspect-ratio:1024 / 739; }
-.project-sheet[data-project-id="adaptive-app-market"] .am-tablet-screen {
-  top:5.15%;
-  left:3.72%;
-  width:92.96%;
-  height:89.85%;
-  border-radius:2.6%;
-}
-.project-sheet[data-project-id="adaptive-app-market"] .am-tablet-status { top:5.15%; left:3.72%; width:92.96%; }
-.project-sheet[data-project-id="adaptive-app-market"] .am-tablet-frame {
-  -webkit-mask:
-    linear-gradient(#000 0 0) top/100% 5.15% no-repeat,
-    linear-gradient(#000 0 0) bottom/100% 5.15% no-repeat,
-    linear-gradient(#000 0 0) left/3.72% 100% no-repeat,
-    linear-gradient(#000 0 0) right/3.72% 100% no-repeat,
-    radial-gradient(circle at 2.15% 50%,#000 0 .72%,transparent .82%);
-  mask:
-    linear-gradient(#000 0 0) top/100% 5.15% no-repeat,
-    linear-gradient(#000 0 0) bottom/100% 5.15% no-repeat,
-    linear-gradient(#000 0 0) left/3.72% 100% no-repeat,
-    linear-gradient(#000 0 0) right/3.72% 100% no-repeat,
-    radial-gradient(circle at 2.15% 50%,#000 0 .72%,transparent .82%);
-  mask-composite:add;
-}
 
 /* Definitive 2026-09-29 visual QA overrides. */
 .project-sheet[data-project-id="adaptive-app-market"] .am-positioning-panel { grid-template-columns:1.03fr .97fr; min-height:510px; }
@@ -777,24 +784,6 @@
 .project-sheet[data-project-id="adaptive-app-market"] .am-fan-screen.is-fan-3 { left:44%; z-index:3; opacity:.9; transform:rotate(-3deg); }
 .project-sheet[data-project-id="adaptive-app-market"] .am-fan-screen.is-fan-4 { left:62%; z-index:4; transform:rotate(3deg); }
 
-.project-sheet[data-project-id="adaptive-app-market"] .am-tablet-device { overflow:hidden; border-radius:4.9% / 6.8%; background:#050505; }
-.project-sheet[data-project-id="adaptive-app-market"] .am-tablet-screen { top:5.25%; left:3.78%; z-index:1; width:92.44%; height:89.48%; border:0; border-radius:2.05% / 2.85%; clip-path:inset(0 round 2.05% / 2.85%); object-fit:cover; }
-.project-sheet[data-project-id="adaptive-app-market"] .am-tablet-status { top:5.25%; left:3.78%; z-index:2; width:92.44%; max-width:none; }
-.project-sheet[data-project-id="adaptive-app-market"] .am-tablet-frame {
-  z-index:6;
-  -webkit-mask:
-    linear-gradient(#000 0 0) top/100% 5.45% no-repeat,
-    linear-gradient(#000 0 0) bottom/100% 5.45% no-repeat,
-    linear-gradient(#000 0 0) left/4% 100% no-repeat,
-    linear-gradient(#000 0 0) right/4% 100% no-repeat,
-    radial-gradient(circle at 2.15% 50%,#000 0 .72%,transparent .82%);
-  mask:
-    linear-gradient(#000 0 0) top/100% 5.45% no-repeat,
-    linear-gradient(#000 0 0) bottom/100% 5.45% no-repeat,
-    linear-gradient(#000 0 0) left/4% 100% no-repeat,
-    linear-gradient(#000 0 0) right/4% 100% no-repeat,
-    radial-gradient(circle at 2.15% 50%,#000 0 .72%,transparent .82%);
-}
 
 .project-sheet[data-project-id="adaptive-app-market"] .am-controller-panel { grid-template-columns:repeat(6,minmax(0,1fr)); }
 .project-sheet[data-project-id="adaptive-app-market"] .am-controller-step { min-width:0; min-height:220px; padding:24px 17px; }
@@ -1013,47 +1002,6 @@
 .project-sheet[data-project-id="adaptive-app-market"] .am-fan-screen.is-fan-3 { left:44%; z-index:3; opacity:.9; transform:rotate(-3deg); }
 .project-sheet[data-project-id="adaptive-app-market"] .am-fan-screen.is-fan-4 { left:62%; z-index:4; transform:rotate(3deg); }
 
-/* Tablet content, status layer and any in-screen navigation share the exact
-   display rectangle. The outer image is only a hardware overlay. */
-.project-sheet[data-project-id="adaptive-app-market"] .am-tablet-device {
-  overflow:hidden;
-  border-radius:4.9% / 6.8%;
-  background:#050505;
-}
-.project-sheet[data-project-id="adaptive-app-market"] .am-tablet-screen {
-  top:5.25%;
-  left:3.78%;
-  z-index:1;
-  width:92.44%;
-  height:89.48%;
-  border:0;
-  border-radius:2.05% / 2.85%;
-  clip-path:inset(0 round 2.05% / 2.85%);
-  object-fit:cover;
-}
-.project-sheet[data-project-id="adaptive-app-market"] .am-tablet-status {
-  top:5.25%;
-  left:3.78%;
-  z-index:2;
-  width:92.44%;
-  max-width:none;
-}
-.project-sheet[data-project-id="adaptive-app-market"] .am-tablet-frame {
-  z-index:6;
-  -webkit-mask:
-    linear-gradient(#000 0 0) top/100% 5.45% no-repeat,
-    linear-gradient(#000 0 0) bottom/100% 5.45% no-repeat,
-    linear-gradient(#000 0 0) left/4% 100% no-repeat,
-    linear-gradient(#000 0 0) right/4% 100% no-repeat,
-    radial-gradient(circle at 2.15% 50%,#000 0 .72%,transparent .82%);
-  mask:
-    linear-gradient(#000 0 0) top/100% 5.45% no-repeat,
-    linear-gradient(#000 0 0) bottom/100% 5.45% no-repeat,
-    linear-gradient(#000 0 0) left/4% 100% no-repeat,
-    linear-gradient(#000 0 0) right/4% 100% no-repeat,
-    radial-gradient(circle at 2.15% 50%,#000 0 .72%,transparent .82%);
-}
-
 /* Six controller affordances form one compact, controller-like vocabulary. */
 .project-sheet[data-project-id="adaptive-app-market"] .am-controller-panel {
   grid-template-columns:repeat(6,minmax(0,1fr));
@@ -1098,34 +1046,44 @@
 /* Tablet. */
 .project-sheet[data-project-id="adaptive-app-market"] .am-tablet-hero-layout { display:grid; grid-template-columns:minmax(0,1fr) 240px; align-items:center; gap:34px; }
 .project-sheet[data-project-id="adaptive-app-market"] .am-tablet { min-width:0; margin:0; }
+/* The original hardware alpha defines the silhouette. The UI extends
+   slightly under its inner edge so it fills the aperture at any size. */
 .project-sheet[data-project-id="adaptive-app-market"] .am-tablet-device {
   position:relative;
   isolation:isolate;
-  aspect-ratio:2048 / 1477;
-  filter:drop-shadow(0 24px 28px rgba(29,38,57,.15));
+  aspect-ratio:1024 / 739;
 }
 .project-sheet[data-project-id="adaptive-app-market"] .am-tablet-screen {
   position:absolute;
-  top:6.1%;
-  left:4.16%;
+  top:5%;
+  left:3.6%;
   z-index:1;
   display:block;
-  width:91.45%;
-  height:88.15%;
-  border-radius:3.4%;
+  width:92.8%;
+  height:90%;
+  border-radius:2.05% / 2.85%;
   object-fit:cover;
 }
 .project-sheet[data-project-id="adaptive-app-market"] .am-tablet-status {
   position:absolute;
-  top:6.1%;
-  left:4.16%;
-  z-index:3;
+  top:5.25%;
+  left:3.78%;
+  z-index:2;
   display:block;
-  width:91.45%;
+  width:92.44%;
   height:auto;
+  max-width:none;
   pointer-events:none;
 }
-.project-sheet[data-project-id="adaptive-app-market"] .am-tablet-frame { position:absolute; inset:0; z-index:2; display:block; width:100%; height:100%; pointer-events:none; }
+.project-sheet[data-project-id="adaptive-app-market"] .am-tablet-frame {
+  position:absolute;
+  inset:0;
+  z-index:3;
+  display:block;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+}
 .project-sheet[data-project-id="adaptive-app-market"] .am-tablet-notes { display:flex; flex-direction:column; gap:12px; }
 .project-sheet[data-project-id="adaptive-app-market"] .am-tablet-notes .am-note { display:block; }
 .project-sheet[data-project-id="adaptive-app-market"] .am-tablet-notes .am-note-title { display:block; margin-bottom:7px; }
@@ -1453,7 +1411,6 @@
 
 
 @media (prefers-reduced-motion:reduce) {
-  .project-sheet[data-project-id="adaptive-app-market"] .is-scroll-phone .am-phone-screen { animation:none !important; transform:none !important; }
   .project-sheet[data-project-id="adaptive-app-market"] .am-marquee-track { animation-play-state:paused !important; }
 }
 
@@ -1664,22 +1621,3 @@
 .project-sheet[data-project-id="adaptive-app-market"] .am-marquee-row,
 .project-sheet[data-project-id="adaptive-app-market"] .am-marquee-row + .am-marquee-row { margin-top:0; transform:none; }
 @keyframes am-screen-drift { from { transform:translate3d(0,0,0); } to { transform:translate3d(-33.333333%,0,0); } }
-.project-sheet[data-project-id="adaptive-app-market"] .am-tablet-device { aspect-ratio:1024 / 739; }
-.project-sheet[data-project-id="adaptive-app-market"] .am-tablet-screen { top:5.25%; left:3.78%; z-index:1; width:92.44%; height:89.48%; border:0; border-radius:2.05% / 2.85%; clip-path:inset(0 round 2.05% / 2.85%); object-fit:cover; }
-.project-sheet[data-project-id="adaptive-app-market"] .am-tablet-status { top:5.25%; left:3.78%; z-index:2; width:92.44%; max-width:none; }
-.project-sheet[data-project-id="adaptive-app-market"] .am-tablet-frame {
-  z-index:6;
-  -webkit-mask:
-    linear-gradient(#000 0 0) top/100% 5.45% no-repeat,
-    linear-gradient(#000 0 0) bottom/100% 5.45% no-repeat,
-    linear-gradient(#000 0 0) left/4% 100% no-repeat,
-    linear-gradient(#000 0 0) right/4% 100% no-repeat,
-    radial-gradient(circle at 2.15% 50%,#000 0 .72%,transparent .82%);
-  mask:
-    linear-gradient(#000 0 0) top/100% 5.45% no-repeat,
-    linear-gradient(#000 0 0) bottom/100% 5.45% no-repeat,
-    linear-gradient(#000 0 0) left/4% 100% no-repeat,
-    linear-gradient(#000 0 0) right/4% 100% no-repeat,
-    radial-gradient(circle at 2.15% 50%,#000 0 .72%,transparent .82%);
-  mask-composite:add;
-}

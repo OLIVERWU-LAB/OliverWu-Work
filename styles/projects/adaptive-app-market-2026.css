@@ -338,7 +338,7 @@
   width:246px;
   transform:rotate(3deg);
 }
-.project-sheet[data-project-id="adaptive-app-market"] .am-positioning-devices :is(.am-phone-shell,.am-tablet-device,.am-handheld-device) {
+.project-sheet[data-project-id="adaptive-app-market"] .am-positioning-devices :is(.am-phone-shell,.am-handheld-device) {
   filter:drop-shadow(0 18px 24px rgba(18,24,58,.26));
 }
 
@@ -425,20 +425,6 @@
   color:var(--am-ink);
 }
 .project-sheet[data-project-id="adaptive-app-market"] .am-detail-stage .am-caption-body { color:var(--am-copy); }
-
-/* Start scrolling almost immediately and complete a full read before the
-   visitor is likely to leave the section. */
-.project-sheet[data-project-id="adaptive-app-market"] .am-phone-discovery-layout .is-scroll-phone .am-phone-shell.is-am-visible .am-phone-screen {
-  animation:am-phone-scroll-responsive 12s cubic-bezier(.62,0,.38,1) -.15s infinite !important;
-}
-.project-sheet[data-project-id="adaptive-app-market"] .am-apps-primary .am-phone-shell.is-am-visible .am-phone-screen {
-  animation-duration:9.5s !important;
-}
-@keyframes am-phone-scroll-responsive {
-  0%,3% { transform:translate3d(0,0,0); }
-  44%,57% { transform:translate3d(0,calc(-100% + 100cqh),0); }
-  96%,100% { transform:translate3d(0,0,0); }
-}
 
 /* One connector vocabulary: fine, closely-spaced dashes beneath the UI and a
    circular terminal instead of an arrowhead. */
@@ -597,17 +583,23 @@
   z-index:-1;
 }
 
-/* Reach the end quickly, keep the end hold brief, then return smoothly. */
-.project-sheet[data-project-id="adaptive-app-market"] .am-phone-discovery-layout .is-scroll-phone .am-phone-shell.is-am-visible .am-phone-screen {
-  animation-duration:10.5s !important;
-}
-.project-sheet[data-project-id="adaptive-app-market"] .am-apps-primary .am-phone-shell.is-am-visible .am-phone-screen {
-  animation-duration:7.8s !important;
+/* Discovery has a brief hold at each end. Both status-bar and screen
+   animations use the same period and start offset. */
+.project-sheet[data-project-id="adaptive-app-market"] .am-phone-discovery-layout .is-scroll-phone {
+  --am-phone-scroll-name:am-phone-scroll-responsive;
+  --am-phone-status-name:am-phone-status-responsive;
+  --am-phone-scroll-duration:10.5s;
+  --am-phone-scroll-delay:-.15s;
+  --am-phone-scroll-curve:cubic-bezier(.62,0,.38,1);
 }
 @keyframes am-phone-scroll-responsive {
   0%,2% { transform:translate3d(0,0,0); }
   44%,49% { transform:translate3d(0,calc(-100% + 100cqh),0); }
   98%,100% { transform:translate3d(0,0,0); }
+}
+@keyframes am-phone-status-responsive {
+  0%,2%,98%,100% { opacity:0; }
+  9%,91% { opacity:1; }
 }
 
 /* Profile destinations follow the four real source rows and use the same
@@ -1131,15 +1123,22 @@
   clip-path:none;
 }
 
-/* Apps uses a shorter, nearly pause-free reading loop so the return motion is
-   apparent before a visitor leaves the section. */
-.project-sheet[data-project-id="adaptive-app-market"] .am-apps-primary .am-phone-shell.is-am-visible .am-phone-screen {
-  animation:am-apps-scroll-tight 6.4s cubic-bezier(.58,.02,.42,.98) -.1s infinite !important;
+/* Apps completes the same out-and-back motion in a shorter loop. */
+.project-sheet[data-project-id="adaptive-app-market"] .am-apps-primary.is-scroll-phone {
+  --am-phone-scroll-name:am-apps-scroll-tight;
+  --am-phone-status-name:am-apps-status-tight;
+  --am-phone-scroll-duration:6.4s;
+  --am-phone-scroll-delay:-.1s;
+  --am-phone-scroll-curve:cubic-bezier(.58,.02,.42,.98);
 }
 @keyframes am-apps-scroll-tight {
   0%,1% { transform:translate3d(0,0,0); }
   46%,47.5% { transform:translate3d(0,calc(-100% + 100cqh),0); }
   99%,100% { transform:translate3d(0,0,0); }
+}
+@keyframes am-apps-status-tight {
+  0%,1%,99%,100% { opacity:0; }
+  11%,89% { opacity:1; }
 }
 
 /* Final optical pass: the search fan uses an even four-step rotation rhythm,

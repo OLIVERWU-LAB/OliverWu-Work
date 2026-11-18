@@ -110,8 +110,12 @@
       scroller.setAttribute('role', 'region');
       scroller.setAttribute('aria-label', pane.label || item.title || alt);
       if (pane.scrollbar) scroller.dataset.scrollbar = 'visible';
-      if (pane.topFade) {
-        region.style.setProperty('--start-scroll-fade-size', `${pane.topFade / pane.height * 100}%`);
+      if (pane.headerScrimHeight) {
+        region.classList.add('has-header-scrim');
+        region.style.setProperty('--start-scroll-header-height', `${pane.headerScrimHeight / pane.height * 100}%`);
+        scroller.addEventListener('scroll', () => {
+          region.classList.toggle('is-scrolled', scroller.scrollTop > 1);
+        }, { passive: true });
       }
       const content = make('div', 'start-scroll-content');
       // Use the grid's design width so browser zoom scales the artwork only once.
@@ -132,11 +136,6 @@
         column.style.height = `${layer.height / pane.contentHeight * 100}%`;
         addLayer(column, { ...layer, x: 0, y: 0 }, layer.width, layer.height);
         content.append(column);
-      }
-      if (pane.topFade) {
-        scroller.addEventListener('scroll', () => {
-          region.classList.toggle('is-scrolled', scroller.scrollTop > 1);
-        }, { passive: true });
       }
       scroller.append(content);
       region.append(scroller);

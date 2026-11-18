@@ -41,12 +41,22 @@
     return bar;
   };
 
+  const scrollStatusBlur = screen => {
+    const blur = el("div", "am-scroll-status-blur");
+    const sample = el("div", "am-scroll-status-sample");
+    sample.append(image(screen, "", "am-phone-screen"));
+    blur.setAttribute("aria-hidden", "true");
+    blur.append(sample);
+    return blur;
+  };
+
   const makePhone = ({screen, title, eyebrow, body, scroll = false, status = "light", tabbar = false, tabbarFile = "phone-tabbar-png-web.webp", bottomAction = ""}) => {
     const figure = el("figure", `am-phone${scroll ? " is-scroll-phone" : ""}`);
     const shell = el("div", "am-phone-shell am-observe");
     const viewport = el("div", "am-phone-viewport");
-    const screenImage = image(screen, `${title} phone interface`, "am-phone-screen");
-    viewport.append(screenImage, statusImage(status));
+    viewport.append(image(screen, `${title} phone interface`, "am-phone-screen"));
+    if (scroll) viewport.append(scrollStatusBlur(screen));
+    viewport.append(statusImage(status));
     const frame = image("phone-frame-2025-png-web.webp", "", "am-phone-frame");
     frame.setAttribute("aria-hidden", "true");
     if (tabbar) {

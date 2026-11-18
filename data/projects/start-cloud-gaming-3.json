@@ -68,19 +68,19 @@
                   "panes": [
                     {
                       "x": 298,
-                      "y": 80,
+                      "y": 127,
                       "width": 1142,
-                      "height": 730,
+                      "height": 683,
                       "layers": [
                         {
                           "file": "assets/projects/start-cloud-gaming-3/page-2/pc/home-feed.webp",
                           "x": 0,
-                          "y": 47,
+                          "y": 0,
                           "width": 1081,
                           "height": 4573
                         }
                       ],
-                      "contentHeight": 4644,
+                      "contentHeight": 4597,
                       "scrollbar": true
                     }
                   ],
@@ -149,27 +149,27 @@
                   "panes": [
                     {
                       "x": 298,
-                      "y": 80,
+                      "y": 126,
                       "width": 1142,
-                      "height": 730,
+                      "height": 684,
                       "layers": [
                         {
                           "file": "assets/projects/start-cloud-gaming-3/page-2/pc/detail-main.webp",
                           "x": 0,
-                          "y": 46,
+                          "y": 0,
                           "width": 720,
                           "height": 1337
                         },
                         {
                           "file": "assets/projects/start-cloud-gaming-3/page-2/pc/detail-info.webp",
                           "x": 743,
-                          "y": 46,
+                          "y": 0,
                           "width": 338,
                           "height": 789,
-                          "pinBottom": 636
+                          "pinBottom": 590
                         }
                       ],
-                      "contentHeight": 1415,
+                      "contentHeight": 1369,
                       "scrollbar": true
                     }
                   ],
@@ -226,19 +226,19 @@
                   "panes": [
                     {
                       "x": 298,
-                      "y": 72,
+                      "y": 86,
                       "width": 1142,
-                      "height": 738,
+                      "height": 724,
                       "layers": [
                         {
                           "file": "assets/projects/start-cloud-gaming-3/page-2/pc/member-content.webp",
                           "x": 0,
-                          "y": 6,
+                          "y": 0,
                           "width": 1090,
                           "height": 1035
                         }
                       ],
-                      "contentHeight": 1066,
+                      "contentHeight": 1060,
                       "scrollbar": true
                     }
                   ],
@@ -329,19 +329,19 @@
                   "panes": [
                     {
                       "x": 0,
-                      "y": 126,
+                      "y": 140,
                       "width": 375,
-                      "height": 596,
+                      "height": 582,
                       "layers": [
                         {
                           "file": "assets/projects/start-cloud-gaming-3/page-2/mobile/home-feed.webp",
                           "x": 16,
-                          "y": 14,
+                          "y": 0,
                           "width": 359,
                           "height": 4806
                         }
                       ],
-                      "contentHeight": 4866
+                      "contentHeight": 4852
                     }
                   ],
                   "overlays": [
@@ -364,9 +364,9 @@
                   "panes": [
                     {
                       "x": 0,
-                      "y": 42,
+                      "y": 0,
                       "width": 375,
-                      "height": 690,
+                      "height": 732,
                       "layers": [
                         {
                           "file": "assets/projects/start-cloud-gaming-3/page-2/mobile/detail-content.webp",
@@ -377,7 +377,7 @@
                         }
                       ],
                       "contentHeight": 1571,
-                      "topFade": 54
+                      "headerScrimHeight": 90
                     }
                   ],
                   "overlays": [
@@ -414,9 +414,9 @@
                   "panes": [
                     {
                       "x": 0,
-                      "y": 89,
+                      "y": 99,
                       "width": 375,
-                      "height": 633,
+                      "height": 623,
                       "layers": [
                         {
                           "file": "assets/projects/start-cloud-gaming-3/page-2/mobile/member-content.webp",

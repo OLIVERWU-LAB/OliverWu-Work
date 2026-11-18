@@ -186,13 +186,26 @@ html:lang(en) .project-sheet[data-project-id="start-cloud-gaming-3"] .start-chap
   position: absolute;
 }
 
-.project-sheet[data-project-id="start-cloud-gaming-3"] .start-scroll-region.is-scrolled::after {
+/* The full-bleed mobile detail artwork runs underneath the fixed header. */
+.project-sheet[data-project-id="start-cloud-gaming-3"] .start-scroll-region.has-header-scrim::after {
   position: absolute;
   inset: 0 0 auto;
-  height: var(--start-scroll-fade-size);
-  background: linear-gradient(#101214 58%, transparent);
+  height: var(--start-scroll-header-height);
+  background: #101214;
+  opacity: 0;
+  transition: opacity 160ms ease-out;
   pointer-events: none;
   content: "";
+}
+
+.project-sheet[data-project-id="start-cloud-gaming-3"] .start-scroll-region.has-header-scrim.is-scrolled::after {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-sheet[data-project-id="start-cloud-gaming-3"] .start-scroll-region.has-header-scrim::after {
+    transition: none;
+  }
 }
 
 .project-sheet[data-project-id="start-cloud-gaming-3"] .start-scroll-pane {
